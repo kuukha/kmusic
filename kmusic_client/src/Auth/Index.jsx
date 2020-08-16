@@ -10,7 +10,7 @@ export default withRoot(() => {
         <Register setNewUser={setNewUser}/>
     ):
     (
-        <Login />
+        <Login setNewUser={setNewUser}/>
     )
     
     

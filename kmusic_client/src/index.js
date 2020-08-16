@@ -1,24 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+
+import Root from "./Root.jsx";
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom"
-import { ApolloProvider } from 'react-apollo'
-import AppoloClient from 'apollo-boost'
+import { ApolloProvider, Query } from 'react-apollo'
+import AppoloClient, { gql } from 'apollo-boost'
 import Auth from './Auth/Index'
 
-const apiclient = new AppoloClient({
-  uri: 'http://localhost:8000/graphql/'
+const client = new AppoloClient({
+  uri: 'http://localhost:8000/graphql/',
+
+  fetchOptions: {
+    credentials: "include"
+  },
+
+  request: operation => {
+    const token = localStorage.getItem("authToken") || "";
+    operation.setContext({
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    });
+  },
+
+  clientState: {
+    defaults: {
+      isLoggedIn: !!localStorage.getItem("authToken")
+    }
+  }
 })
+
+const IS_LOGGED_IN_QUERY = gql`
+  query {
+    isLoggedIn @client
+  }
+`;
 
 ReactDOM.render(
 
-  <ApolloProvider client={apiclient}>
-      <BrowserRouter>
-          {/* <App></App> */}
-          <Auth></Auth>
-      </BrowserRouter>
+  <ApolloProvider client={client}>
+    <Query query={IS_LOGGED_IN_QUERY}>
+      {({ data }) => (data.isLoggedIn ? <Root /> : <Auth />)}
+    </Query>
   </ApolloProvider>,
   document.getElementById('root')
 );
