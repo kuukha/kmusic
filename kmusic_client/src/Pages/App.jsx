@@ -10,11 +10,12 @@ import Loading from "../Shared/Loading";
 import Error from "../Shared/Error";
 
 const App = ({ classes }) => {
+  const [searchResults, setSearchResults] = useState([]);
   
 
   return (
       <div className={classes.container}>
-      <SearchTracks />
+      <SearchTracks setSearchResults={setSearchResults} />
       <CreateTrack />
 
       <Query query={GET_TRACKS_QUERY}>
@@ -22,7 +23,8 @@ const App = ({ classes }) => {
         if (loading) return <Loading />;
         if (error) return <Error error={error} />;
 
-        return <TrackList ktracks={data.ktracks} />;
+        const ktracks = searchResults.length > 0 ? searchResults : data.ktracks;
+        return <TrackList ktracks={ktracks} />;
         
       }}
       </Query>
