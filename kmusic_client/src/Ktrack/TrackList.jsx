@@ -45,7 +45,7 @@ const TrackList = ({ classes, ktracks }) => (
                     <Typography variant="body1">{track.description}</Typography>
                     </ExpansionPanelDetails>
                     <ExpansionPanelActions>
-                    <UpdateTrack />
+                    <UpdateTrack track={track}/>
                     <DeleteTrack />
                     </ExpansionPanelActions>
             </ExpansionPanel>
