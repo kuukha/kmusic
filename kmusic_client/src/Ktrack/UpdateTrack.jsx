@@ -21,12 +21,15 @@ import { UserContext } from "../Root";
 import Error from "../Shared/Error";
 
 const UpdateTrack = ({ classes, track }) => {
+  const currentUser = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [tittle, setTittle] = useState(track.tittle);
   const [description, setDescription] = useState(track.description);
   const [file, setFile] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [fileError, setFileError] = useState("");
+  
+  const isCurrentUser = currentUser.id === track.postedBy.id;
 
 const handleAudioChange = event => {
   const selectedFile = event.target.files[0];
@@ -67,7 +70,9 @@ const handleSubmit = async (event, updateTrack) => {
 };
 
   return (
+    isCurrentUser && (
       <>
+
         {/* Update Track Button */}
       <IconButton
       onClick={() => setOpen(true)}
@@ -184,6 +189,7 @@ const handleSubmit = async (event, updateTrack) => {
       
         
       </>
+  )
   );
 };
 const UPDATE_TRACK_MUTATION = gql`

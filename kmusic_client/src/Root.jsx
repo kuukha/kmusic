@@ -9,6 +9,7 @@ import App from "./Pages/App";
 import Profile from "./Pages/Profile";
 import Error from "./Shared/Error";
 
+export const UserContext = React.createContext();
 
 const Root = () => (
   <Query query={ME_QUERY}>
@@ -19,27 +20,17 @@ const Root = () => (
 
       return(
         <Router>
-          <>
+          <UserContext.Provider value={currentUser}>
           <Header currentUser={currentUser} />
           <Switch>
           <Route exact path="/" component={App} />
           <Route path="/profile/:id" component={Profile} />
 
            </Switch>
-           </>
+           </UserContext.Provider>
         </Router>
       )
-      // (
-      //   <Router>
-      //     <UserContext.Provider value={currentUser}>
-      //       <Header currentUser={currentUser} />
-      //       <Switch>
-      //         <Route exact path="/" component={App} />
-      //         <Route path="/profile/:id" component={Profile} />
-      //       </Switch>
-      //     </UserContext.Provider>
-      //   </Router>
-      // );
+
     }}
   </Query>
 );
