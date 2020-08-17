@@ -16,41 +16,38 @@ const App = ({ classes }) => {
       <div className={classes.container}>
       <SearchTracks />
       <CreateTrack />
-      <TrackList />
+
+      <Query query={GET_TRACKS_QUERY}>
+      {({ data, loading, error }) => {
+        if (loading) return <Loading />;
+        if (error) return <Error error={error} />;
+
+        return <TrackList tracks={data.ktracks} />;
+        
+      }}
+      </Query>
 
       </div>
-    // <div className={classes.container}>
-
-    //   <Query query={GET_TRACKS_QUERY}>
-    //     {({ data, loading, error }) => {
-    //       if (loading) return <Loading />;
-    //       if (error) return <Error error={error} />;
-    //       const tracks = searchResults.length > 0 ? searchResults : data.tracks;
-
-    //       return <TrackList tracks={tracks} />;
-    //     }}
-    //   </Query>
-    // </div>
   );
 };
 
-// export const GET_TRACKS_QUERY = gql`
-//   query getTracksQuery {
-//     tracks {
-//       id
-//       title
-//       description
-//       url
-//       likes {
-//         id
-//       }
-//       postedBy {
-//         id
-//         username
-//       }
-//     }
-//   }
-// `;
+export const GET_TRACKS_QUERY = gql`
+  query getTracksQuery {
+    ktracks {
+      id
+      tittle
+      description
+      url
+      likes {
+        id
+      }
+      postedBy {
+        id
+        username
+      }
+    }
+  }
+`;
 
 const styles = theme => ({
   container: {
