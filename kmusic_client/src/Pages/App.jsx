@@ -22,7 +22,7 @@ const App = ({ classes }) => {
         if (loading) return <Loading />;
         if (error) return <Error error={error} />;
 
-        return <TrackList tracks={data.ktracks} />;
+        return <TrackList ktracks={data.ktracks} />;
         
       }}
       </Query>
