@@ -10,6 +10,18 @@ import { GET_TRACKS_QUERY } from "../Pages/App";
 const DeleteTrack = ({ track }) => {
   const currentUser = useContext(UserContext);
   const isCurrentUser = currentUser.id === track.postedBy.id;
+  
+  const handleUpdateCache = (cache, { data: { deleteTrack } }) => {
+    const data = cache.readQuery({ query: GET_TRACKS_QUERY });
+    const index = data.ktracks.findIndex(
+      track => Number(track.id) === deleteTrack.ktrackId
+    )
+    // data.ktracks.splice(index, 1)
+    const ktracks = [...data.ktracks.slice(0, index), ...data.ktracks.slice(index + 1)]
+    cache.writeQuery({ query: GET_TRACKS_QUERY, data: { ktracks } });
+  };
+  
+
   return isCurrentUser && (
 
     <Mutation mutation={DELETE_TRACK_MUTATION}
@@ -18,8 +30,8 @@ const DeleteTrack = ({ track }) => {
     onCompleted={data => {
       console.log({ data })
     } }
-
-    refetchQueries={() => [{ query: GET_TRACKS_QUERY }]}
+    update={handleUpdateCache}
+    // refetchQueries={() => [{ query: GET_TRACKS_QUERY }]}
     >
       {deleteTrack => (
 

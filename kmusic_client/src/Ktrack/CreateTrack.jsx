@@ -58,6 +58,12 @@ const handleAudioUpload = async () => {
   }
 };
 
+const handleUpdateCache = (cache, { data: { createTrack } }) => {
+  const data = cache.readQuery({ query: GET_TRACKS_QUERY });
+  const ktracks = data.ktracks.concat(createTrack.ktrack);
+  cache.writeQuery({ query: GET_TRACKS_QUERY, data: { ktracks } });
+};
+
 const handleSubmit = async (event, createTrack) => {
   event.preventDefault();
   setSubmitting(true);
@@ -89,7 +95,8 @@ const handleSubmit = async (event, createTrack) => {
             setDescription("");
             setFile("");
           }}
-          refetchQueries={() => [{ query: GET_TRACKS_QUERY }]}
+          update={handleUpdateCache}
+          // refetchQueries={() => [{ query: GET_TRACKS_QUERY }]}
       >
         {(createTrack, { loading, error }) => {
           if (error) return <Error error={error} />;
@@ -198,18 +205,19 @@ const CREATE_TRACK_MUTATION = gql`
         tittle
         description
         url
+         likes {
+           id
+         }
+         postedBy {
+           id
+           username
+         }
 
       }
     }
   }
 `;
-        // likes {
-        //   id
-        // }
-        // postedBy {
-        //   id
-        //   username
-        // }
+        
 const styles = theme => ({
   container: {
     display: "flex",
@@ -218,7 +226,7 @@ const styles = theme => ({
   iconButton: {
     color: "deeppink"
   },
-  
+
   dialog: {
     margin: "0 auto",
     maxWidth: 550
