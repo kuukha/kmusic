@@ -73,7 +73,7 @@ const handleSubmit = async (event, createTrack) => {
         onClick={() => setOpen(true)}
         variant="fab"
         className={classes.fab}
-        color="secondary"
+         color="secondary"
       >
         {open ? <ClearIcon /> : <AddIcon />}
         
@@ -215,6 +215,10 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap"
   },
+  iconButton: {
+    color: "deeppink"
+  },
+  
   dialog: {
     margin: "0 auto",
     maxWidth: 550
@@ -233,6 +237,7 @@ const styles = theme => ({
   },
   icon: {
     marginLeft: theme.spacing(1)
+    
   },
   input: {
     display: "none"
