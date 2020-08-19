@@ -197,14 +197,14 @@ const UPDATE_TRACK_MUTATION = gql`
     updateTrack(
       ktrackId: $ktrackId,
       tittle: $tittle,
-      url: $url
+      url: $url,
       description: $description
     ) {
       ktrack {
         id
         tittle
-        description
         url
+        description
         likes {
           id
         }

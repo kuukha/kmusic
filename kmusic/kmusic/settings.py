@@ -62,7 +62,6 @@ AUTHENTICATION_BACKENDS = [
 ROOT_URLCONF = 'kmusic.urls'
 
 CORS_ORIGIN_WHITELIST = ( 
-    # 'localhost:3000'
     'http://localhost:3000',
 )
 
@@ -99,7 +98,7 @@ WSGI_APPLICATION = 'kmusic.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kmusic',
+        'NAME': 'music1',
         'USER': 'postgres',
         'PASSWORD':'ROBERT92',
         'HOST': 'localhost',

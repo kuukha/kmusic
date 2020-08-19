@@ -63,19 +63,19 @@ class UpdateTrack(graphene.Mutation):
         description = graphene.String()
         url = graphene.String()
 
-    def mutate(self, info, ktrack_id, tittle, description, url) :
-
+    def mutate(self, info, ktrack_id, tittle, description, url):
         user = info.context.user
         ktrack = Ktrack.objects.get(id=ktrack_id)
 
         if ktrack.posted_by != user:
-            raise GraphQLError('Not permited to update this track')
-        
+            raise GraphQLError('Not permitted to update this track.')
+
         ktrack.tittle = tittle
         ktrack.description = description
         ktrack.url = url
 
-        ktrack.save
+        ktrack.save()
+
         return UpdateTrack(ktrack=ktrack)
 
 class DeleteTrack(graphene.Mutation):
